@@ -1,57 +1,33 @@
-name: Update BLS Data
+name: Update BLS Data Monthly
 
-# Schedule this action to run once a month, for example, on the 1st Friday 
-# of the month at 10:00 AM UTC, which is typically when the main jobs report 
-# (CES/CPS) is released, or shortly after.
 on:
   schedule:
-    # Runs at 10:00 AM UTC on the 1st Friday of every month
-    # Note: BLS usually releases data on the first Friday of the month,
-    # so check the release schedule and adjust the cron expression as needed.
-    # The example below runs on the 5th day of the month at 10:00 UTC.
-    - cron: '0 10 5 * *' 
-  
-  # Also allow manual trigger
+    - cron: "0 14 10 * *"  # update on the 10th of every month (after BLS release)
   workflow_dispatch:
 
 jobs:
-  collect_and_commit:
+  update-data:
     runs-on: ubuntu-latest
-    
-    # Set environment variable for API Key
-    env:
-      # Securely store your BLS API key in GitHub Secrets
-      BLS_API_KEY: ${{ secrets.BLS_API_KEY}}
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        # Crucial: Need to check out the repo with a token that has write permission
-        token: ${{ secrets.GITHUB_TOKEN }} 
-        
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.x' 
-        
-    - name: Install dependencies
-      run: pip install -r requirements.txt
-      
-    - name: Create data directory
-      run: mkdir -p data
-      
-    - name: Run data collection script
-      run: python collect_data.py
-      
-    - name: Commit and Push new data
-      # Use a dedicated action for commiting changes
-      uses: stefanzweifel/git-auto-commit-action@v5
-      with:
-        commit_message: '🤖 BLS Data Update: New Monthly Data Collected'
-        # Only commit the updated CSV file
-        file_pattern: 'data/bls_data.csv'
-        # Required for the commit to show up as a workflow bot
-        commit_user_name: 'github-actions[bot]'
-        commit_user_email: 'github-actions[bot]@users.noreply.github.com'
-        
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install pandas requests
+
+      - name: Run data update
+        run: python scripts/fetch_bls_data.py
+
+      - name: Commit updated data
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add data/bls_monthly.csv
+          git commit -m "Monthly BLS data update" || echo "No changes"
+          git push
