@@ -5,7 +5,16 @@ st.set_page_config(page_title="US Labor Market Dashboard", layout="wide")
 
 @st.cache_data
 def load_data():
-    return pd.read_csv("data/bls_data.csv", parse_dates=["date"])
+    try:
+        df = pd.read_csv("data/bls_monthly.csv", parse_dates=["date"])
+        if df.empty:
+            st.warning("Data file exists but contains no data yet.")
+            st.stop()
+        return df
+    except pd.errors.EmptyDataError:
+        st.error("Data file is empty. Please wait for the data pipeline to run.")
+        st.stop()
+
 
 df = load_data()
 
