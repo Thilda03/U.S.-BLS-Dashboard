@@ -21,7 +21,7 @@ jobs:
     # Set environment variable for API Key
     env:
       # Securely store your BLS API key in GitHub Secrets
-      BLS_API_KEY: ${{ secrets.BLS_API_KEY }}
+      BLS_API_KEY: ${{ 64a2bbb06db942958383955afa411458}}
 
     steps:
     - name: Checkout repository

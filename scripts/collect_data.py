@@ -2,7 +2,7 @@ import os
 import requests
 import pandas as pd
 from datetime import datetime
-from dotenv import load_dotenv
+from dotenv import load_dotenv # type: ignore
 
 # Load API key from environment variables (important for GitHub Actions security)
 load_dotenv()
