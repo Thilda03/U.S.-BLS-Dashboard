@@ -48,7 +48,7 @@ def fetch_latest_data():
 def update_dataset():
     new_data = fetch_latest_data()
 
-    if DATA_PATH.exists():
+    if DATA_PATH.exists() and DATA_PATH.stat().st_size > 0:
         existing = pd.read_csv(DATA_PATH, parse_dates=["date"])
         combined = (
             pd.concat([existing, new_data])
@@ -59,6 +59,7 @@ def update_dataset():
         combined = new_data.sort_values("date")
 
     combined.to_csv(DATA_PATH, index=False)
+
 
 
 if __name__ == "__main__":
