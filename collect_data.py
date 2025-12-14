@@ -4,15 +4,20 @@ import pandas as pd
 from datetime import datetime
 from dotenv import load_dotenv # type: ignore
 
-# Load API key from environment variables (important for GitHub Actions security)
+#Load API key
 load_dotenv()
 API_KEY = os.getenv("BLS_API_KEY")
 
 # Define Series IDs and the data file path
-SERIES_IDS = [
-    "LNS14000000", "CES0000000001", "LNS11000000", "LNS12000000",
-    "LNS13000000", "CES0500000002", "CES0500000003"
-]
+SERIES_IDS = {
+   "CES0000000001": "total_nonfarm_employment",
+    "LNS14000000": "unemployment_rate",
+    "LNS11000000": "labor_force",
+    "LNS12000000": "employment",
+    "LNS13000000": "unemployment",
+    "CES0500000002": "avg_weekly_hours",
+    "CES0500000003": "avg_hourly_earnings", 
+}
 DATA_FILE = "data/bls_data.csv"
 
 # --- 1. Determine Start and End Years for API Call ---
