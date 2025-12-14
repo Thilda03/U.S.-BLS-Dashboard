@@ -20,6 +20,12 @@ jobs:
       - name: Install dependencies
         run: |
           pip install pandas requests
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Create .env file with BLS API key
+        run: |
+          echo "BLS_API_KEY=${{ secrets.BLS_API_KEY }}" > .env
 
       - name: Run data update
         run: python scripts/collect_data.py
@@ -28,6 +34,6 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add data/bls_monthly.csv
-          git commit -m "Monthly BLS data update" || echo "No changes"
+          git add data/bls_data.csv
+          git commit -m "Monthly BLS data update: refreshed BLS dataset" || echo "No changes"
           git push
