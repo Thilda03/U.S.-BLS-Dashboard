@@ -1,4 +1,4 @@
-name: Update BLS Data Monthly
+name: Update BLS Data
 
 on:
   schedule:
@@ -22,7 +22,7 @@ jobs:
           pip install pandas requests
 
       - name: Run data update
-        run: python scripts/fetch_bls_data.py
+        run: python scripts/collect_data.py
 
       - name: Commit updated data
         run: |
