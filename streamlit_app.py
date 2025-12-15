@@ -105,5 +105,15 @@ st.bar_chart(
     mom_df.set_index("date")[change_indicator]
 )
 
-
+#Reference
 st.caption("Source: U.S. Bureau of Labor Statistics (BLS)")
+
+
+st.divider()
+st.markdown("""
+**How to read these charts:**
+- Line charts show long-run labor market trends
+- Bar charts highlight current month comparisons
+- Normalized charts reveal relationships between indicators
+- Month-over-month changes capture short-term momentum
+""")
