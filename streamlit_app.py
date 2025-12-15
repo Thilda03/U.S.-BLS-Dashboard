@@ -97,7 +97,7 @@ mom_df["employment_change"] = mom_df["nonfarm_employment"].diff()
 mom_df["unemployment_change"] = mom_df["unemployment_rate"].diff()
 
 change_indicator = st.selectbox(
-    "Select change metric",
+    "Select to change metric",
     ["employment_change", "unemployment_change"]
 )
 
