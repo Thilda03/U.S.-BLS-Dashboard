@@ -28,7 +28,7 @@ st.title("📊 U.S. Labor Market Dashboard")
 
 latest = df.iloc[-1]
 
-st.subheader("Latest on the Labor Market")
+st.subheader("Latest Change on the Labor Market")
 
 col1, col2, col3 = st.columns(3)
 
@@ -61,7 +61,7 @@ indicators = st.multiselect(
 
 st.line_chart(df.set_index("date")[indicators])
 
-st.subheader("Latest Month Indicator Comparison")
+st.subheader("Latest Month Indicator Comparison Snapshot")
 
 latest_df = (
     latest.drop("date")
@@ -71,7 +71,7 @@ latest_df = (
 )
 st.bar_chart(latest_df.set_index("indicator"))
 
-st.subheader("Employment vs Unemployment (Normalized)")
+st.subheader("Employment vs Unemployment")
 
 dual_df = df[["date", "nonfarm_employment", "unemployment_rate"]].copy()
 
